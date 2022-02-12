@@ -1,143 +1,111 @@
-# tutorial-backend
+# tutorial-frontend
 
- Tutorial backend rest api work with [frontend vue.js](https://github.com/tarathep/tutorial-frontend)
-
-
-Framework By [Gin Web Framework](https://github.com/gin-gonic/gin)
-
+Example VueX application crud frontend
 
 ## prerequisites
 
-- Go 10.x have been Installed
-- MongoDB Available
-  ```bash
-  docker run -it --rm --name mongodb -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=password mongo:latest
-  ```
+NodeJS have been Installed
 
-## go dependencies
-
-set go module
+**Install VueCLI**
 ```bash
-go env -w GO111MODULE=auto
+npm install -g @vue/cli
 ```
 
-gin gonic
+## Init Project
+
+**create project in current dir**
+
+then select > Default (Vue 3) ([Vue 3] babel, eslint) 
 
 ```bash
-go get -u github.com/gin-gonic/gin
+vue create .
+
+? Generate project in current directory? (Y/n) Y
+
+Vue CLI v4.5.15
+? Please pick a preset: 
+> Manually select features
+
+? Check the features needed for your project: 
+ (*) Choose Vue version
+ (*) Babel      
+ (*) Router
+ (*) Vuex
+ (*) Linter / Formatter
+ (*) Unit Testing
+  
+? Choose a version of Vue.js that you want to start the project with 
+> 3.x
+
+? Use history mode for router? (Requires proper server setup for index fallback in production) (Y/n)
+
+? Pick a linter / formatter config: 
+> ESLint with error prevention only 
+
+? Pick additional lint features: (Press <space> to select, <a> to toggle all, <i> to invert selection)
+>(*) Lint on save
+
+? Pick a unit testing solution: 
+> Jest
+
+? Where do you prefer placing config for Babel, ESLint, etc.? 
+> In package.json
+
+? Save this as a preset for future projects? (y/N) y
 ```
 
-mongodb
+## Install Dependencies
+
+**axios**
 
 ```bash
-go get -u go.mongodb.org/mongo-driver/mongo
+npm install axios
 ```
-
-testify
-
-```bash
-go get -u github.com/stretchr/testify
-```
-
-### Go Module
-
-set module
-```bash
-go env -w GO111MODULE=on
-
-go mod init
-
-go mod tidy
-
-go mod vendor
-
-go mod verify
-```
-
-
-## Environment Variables
-
-- ``MONGODB_CONNECTION_STRING``
-  - default : mongodb://127.0.0.1:27017
-  - example : mongodb://root:password@192.168.1.102:27017
-- ``PORT``
-  - default : 8089
-
-
 
 ## Run
 
+app running on port :8080
+
+**run on development**
 ```bash
-go run main.go
+npm run serve
 ```
 
+## Build
 
-## APIs
-
-- ``GET : /api/tutorials``
-
-  response body
-  ```json
-  [{"id":"602aa1e04f3b51804eca6917","title":"yy","description":"xx Description","published":false,"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z"},{"id":"602aa1e04f3b51804eca6917","title":"yy","description":"xx Description","published":false,"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z"}]
-  ```
-- ``GET : /api/tutorials/602aa1e04f3b51804eca6917``
-
-  response body
-  ```json
-  {"id":"602aa1e04f3b51804eca6917","title":"yy","description":"xx Description","published":false,"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z"}
-  ```
-- ``POST : /api/tutorials``
-  
-  request body
-  ```json
-  {"title":"xx","description":"xx Description"}
-  ```
-  
-  response body
-  ```json
-  {"code":"200","message":"Inserted a single document Success"}
-  ```
-
-- ``PUT : /api/tutorials``
-  
-  request body
-  ```json
-  {"id":"602aa1e04f3b51804eca6917","title":"yy","description":"xx Description","published":false,"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z"}
-  ```
-  
-  response body
-  ```json
-  {"code":"200","message":"Updated  a single document Success"}
-  ```
-
-- ``DELETE : /api/tutorials``
-   
-  response body
-  ```json
-  {"code":"200","message":"All deleted"}
-  ```
-- ``DELETE : /api/tutorials/602aa1e04f3b51804eca6917``
-    
-  response body
-  ```json
-  {"code":"200","message":"Deleted id 602aa1e04f3b51804eca6917"}
-  ```
-
-## Unit Test
-
-test
-
+**build on production**
 ```bash
-go test
+npm run build
 ```
 
-test with create cover profile
+## Unittest
+
+**Jest**
 ```bash
-go test -coverprofile coverage.out ./...
+npm run test:unit
 ```
 
-export report html
-```bash
-go tool cover -html coverage.out -o report.html
+jest config coverage report **package.json**
+```json
+{
+  "jest": {
+    "preset": "@vue/cli-plugin-unit-jest",
+    "transform": {
+      "^.+\\.vue$": "vue-jest"
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,vue}",
+      "!src/main.js"
+    ]
+  }
+}
+```
+
+## Configurations
+
+set backend api
+```
+VUE_APP_ENPOINT_API_BACKEND=http://localhost:8089/api
 ```
 
